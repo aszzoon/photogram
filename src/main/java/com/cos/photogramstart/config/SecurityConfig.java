@@ -11,13 +11,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	//super 삭제 - 기존 시큐리티가 가조기 있는 기능이 전부 비활성화 됨
-	http.authorizeRequests()
-		.antMatchers("/","/user/**","/image/**","/subscribe/**","/comment/**").authenticated() // 해당 주소는 인증이 필요하게 처리
-		.anyRequest().permitAll() // 그렇지 않은 모든 페이지는 받음
-		.and()
-		.formLogin()
-		.loginPage("/auth/signin") // formlogin page로 이동
-		.defaultSuccessUrl("/"); // 로그인을 정상처리하게 되면 /로 이동
+		// super 삭제 - 기존 시큐리티가 가조기 있는 기능이 전부 비활성화 됨
+		http.csrf().disable(); // 활성화 되어있는 csrf 해제
+		http.authorizeRequests().antMatchers("/", "/user/**", "/image/**", "/subscribe/**", "/comment/**")
+				.authenticated() // 해당 주소는 인증이 필요하게 처리
+				.anyRequest().permitAll() // 그렇지 않은 모든 페이지는 받음
+				.and().formLogin().loginPage("/auth/signin") // formlogin page로 이동
+				.defaultSuccessUrl("/"); // 로그인을 정상처리하게 되면 /로 이동
 	}
 }
